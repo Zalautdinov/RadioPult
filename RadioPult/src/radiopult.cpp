@@ -6,6 +6,7 @@ void Radio_Pult::begin(uint8_t netmod)
 }
 void Radio_Pult::servo(byte port, int t)
 {
+    // hello
     pinMode(port, OUTPUT);
     t = map(t, 0, 100, 540, 2400);
     digitalWrite(port, 1);
