@@ -11,6 +11,7 @@ class Radio_Pult
 public:
     void begin(uint8_t netmod = RP_WIFI);
     void servo(byte port, int t = 50);
+    void ReadData();
 
 private:
     byte ch = 255; // Канал для подключения NRF модуля

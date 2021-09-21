@@ -14,4 +14,11 @@ void Radio_Pult::servo(byte port, int t)
     delayMicroseconds(20000 - t);
 }
 
+void Radio_Pult::ReadData()
+{
+    if (net_mod == 1) // чтенире данных с радиомодуля NRF24
+    {
+    }
+}
+
 Radio_Pult RadioPult = Radio_Pult();
