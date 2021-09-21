@@ -16,6 +16,7 @@ public:
 private:
     byte ch = 255; // Канал для подключения NRF модуля
     byte net_mod = RP_WIFI;
+byte g;
     //uint8_t pip[6];            // труба для связи присылает пульт
     //uint8_t pip0[6] = "setup"; // труба для настройки
 };
