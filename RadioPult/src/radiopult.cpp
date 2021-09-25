@@ -54,7 +54,8 @@ bool Radio_Pult::Priem()
     if (millis() - t1 > 2000)
         for (byte n = 0; n < sizeof(b_read); n++)
         {
-            //b_read[n] = 0;
+            b_read[n] = 0;
+            power_control = 0;
         }
     switch (net_mod)
     {
