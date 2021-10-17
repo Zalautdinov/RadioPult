@@ -54,9 +54,10 @@ bool Radio_Pult::Priem()
     if (millis() - t1 > 2000)
         for (byte n = 0; n < sizeof(b_read); n++)
         {
-            b_read[n] = 0;
+            b_read[n] = 0; // занчения по умолчанию
             power_control = 0;
         }
+    //b_read[3]= 50;
     switch (net_mod)
     {
     case RP_WIFI:
@@ -64,11 +65,16 @@ bool Radio_Pult::Priem()
         int packetSize = udp.parsePacket();
         if (packetSize)
         {
+            err = 0;
             udp.read(b_read, 32);
             t1 = millis();
             return true;
         }
-        return false;
+        else
+        {
+            err++;
+        }
+        //return false;
         break;
     }
     case RP_NRF24:
@@ -78,19 +84,32 @@ bool Radio_Pult::Priem()
             // установить буфер ответа если он включен
             if (radio.available()) // Слушаем канал связи
             {
+                err = 0;
                 t1 = millis();
                 radio.read(&b_read, sizeof(b_read));
                 // загрузить буфер ответа если установлен флаг
                 return true;
             }
+            else
+            {
+                err++;
+            }
         }
-        return false;
+        //return false;
         break;
     }
 
     default:
         return false;
     }
+    if (err > 10)
+    {
+        b_read[1] = 127;
+        b_read[2] = 127;
+        b_read[3] = 127;
+        b_read[4] = 127;
+    }
+    return false;
 }
 void Radio_Pult::init_nrf() // поиск каналоа и ожидание подключения
 {
