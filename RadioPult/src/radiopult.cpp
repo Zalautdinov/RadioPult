@@ -240,4 +240,7 @@ void Radio_Pult::PowerControl(byte *h, byte min_value)
         *h = 0;
     }
 }
+
+
+
 Radio_Pult RadioPult = Radio_Pult();

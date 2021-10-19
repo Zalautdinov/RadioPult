@@ -1,11 +1,17 @@
 {
   "name": "radiopult",
-  "keywords": "begin",
-  "description": "hellp",
+  "keywords": "begin, pult, radiopult, rustam, priem",
+  "description": "Библиотека для работы с пультом Заляутдинова Рустама",
   "repository": {
     "type": "git",
     "url": "https://github.com/Zalautdinov/radiopult.git"
   },
   "version": "1.0",
-  "frameworks": "arduino"
+  "frameworks": "arduino",
+  "platforms":
+  [
+    "atmelavr",
+    "espressif32",
+    "espressif8266"
+  ]
 }
