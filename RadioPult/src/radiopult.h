@@ -18,7 +18,6 @@ class Radio_Pult
 {
 public:
     void begin(uint8_t netmod = RP_WIFI, byte ce = 0, byte cs = 0);
-    void servo(byte port, int t = 50);
     bool Priem();
     void init_nrf();
     void PowerControl(byte *h, byte min_value = 0);

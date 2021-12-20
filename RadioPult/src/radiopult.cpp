@@ -1,12 +1,5 @@
 #include <radiopult.h>
-/**
- * @brief Инициализация пульта управления
- *
- * @param netmod  Выбор радиомодуля для подключения RP_WIFI или RP_NRF24
- * 
- * @param ce  порт подключения ISP шины пин CE
- * @param cs  порт подключения ISP шины пин CS
- */
+
 void Radio_Pult::begin(uint8_t netmod, byte ce, byte cs)
 {
     net_mod = netmod;
@@ -21,8 +14,12 @@ void Radio_Pult::begin(uint8_t netmod, byte ce, byte cs)
         {
             ssid[n + 1] = Name[n];
         }
+
         WiFi.mode(WIFI_AP);
+        WiFi.softAPConfig(local_IP, gateway, subnet);
         WiFi.softAP(ssid, password);
+        delay(1000);
+
         udp.begin(udp_port);
         t1 = millis();
     }
@@ -46,13 +43,6 @@ void Radio_Pult::begin(uint8_t netmod, byte ce, byte cs)
         t1 = millis();
     }
 }
-
-/**
- * @brief Управление сервоприводом 
- * 
- * @param port Порт подключения Серво машинки 
- * @param t Угол поворота в градусах 0 - 180
- */
 void Radio_Pult::servo(byte port, int t)
 {
     pinMode(port, OUTPUT);
@@ -62,21 +52,7 @@ void Radio_Pult::servo(byte port, int t)
     digitalWrite(port, 0);
     delayMicroseconds(20000 - t);
 }
-/**
- * @brief Опрашивает пульт управления и читает данные с пульта
- * @tparam данные с пульта заносит в переменные RadioPult
- * @tparam RadioPult.X1 Левый джойстик ось X ( лево - право )
- * @tparam RadioPult.X2 Правый джойстик ось X ( лево - право )
- * @tparam RadioPult.Y1 Левый джойстик ось Y ( вверх - вниз )
- * @tparam RadioPult.Y2 Правый джойстик ось Y ( вверх - вниз )
- * @tparam RadioPult.R_fire Правый Выстрел 
- * @tparam RadioPult.L_fire Левый выстрел
- * @tparam RadioPult.key_xy2 кнопка правого джойстика и выбор меню
- * 
- * @retval true - Если принял данные с пульта
- * @retval false - Если данные не пришли или потеря сигнала
- *
- */
+
 bool Radio_Pult::Priem()
 {
     if (millis() - t1 > 2000)
@@ -220,18 +196,8 @@ void Radio_Pult::init_nrf() // поиск каналоа и ожидание п�
         }
     }
 }
-/**
- * @brief Проверка положения стика в нулевом или нейтральном положении
- * 
- * @param h 
- * @param min_value 
- */
 void Radio_Pult::PowerControl(byte *h, byte min_value)
 {
-    /**
-     * @brief ввести define джойстиков и передовать их в функцию
-     *   и добаить значение по умолчанию 
-     */
     if (*h == min_value)
         power_control = 1;
 
@@ -240,7 +206,4 @@ void Radio_Pult::PowerControl(byte *h, byte min_value)
         *h = 0;
     }
 }
-
-
-
 Radio_Pult RadioPult = Radio_Pult();
